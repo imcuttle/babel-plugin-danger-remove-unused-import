@@ -5,11 +5,88 @@
  * @description:
  */
 const getSpecImport = require('./utils/getSpecImport');
-const matchRule = require('./utils/matchRule');
 const {name: symbol} = require('../package.json')
 
 function warn(...args) {
-  console.warn.apply(console, [`${symbol} Warn...\n`].concat(args))
+  console.warn.apply(console, [`${symbol} Warn: \n    `].concat(args))
+}
+function log(...args) {
+  console.log.apply(console, [`${symbol} Log: \n    `].concat(args))
+}
+
+const idTraverseObject = {
+  Identifier(path, {runtimeData}) {
+    const { parentPath } = path
+    const { name } = path.node
+    // const ID = 'value';
+    if (parentPath.isVariableDeclarator() && parentPath.get('id') === path) {}
+    // { Tabs: 'value' }
+    else if (parentPath.isLabeledStatement() && parentPath.get('label') === path) {}
+    // ref.ID
+    else if (parentPath.isMemberExpression() && parentPath.get('property') === path) {}
+    // class A { ID() {} }
+    else if (
+      (parentPath.isClassProperty() || parentPath.isClassMethod())
+      && parentPath.get('key') === path
+    ) {}
+    else {
+      // used
+      if (runtimeData[name]) {
+        delete runtimeData[name]
+      }
+    }
+  }
+}
+
+const importTraverseObject = {
+  ImportDeclaration(path, data) {
+    const { opts = {}, runtimeData } = data
+
+    const locals = getSpecImport(path, { withPath: true, ignore: opts.ignore });
+    if (locals) {
+      locals.forEach((pathData, index, all) => {
+        const {name} = pathData
+        // already existed
+        if (runtimeData[name]) {
+          warn('the declare of ', `\`${name}\``, 'is already existed')
+          return
+        }
+        runtimeData[name] = {
+          parent: path,
+          children: all,
+          data: pathData
+        }
+      })
+
+      path.skip()
+    }
+  },
+  ...idTraverseObject
+}
+
+function handleRemovePath(runtimeData, opts = {}) {
+  const { verbose = false } = opts
+  /*
+   {
+   parent: path,
+   children: [ { path, name } ],
+   data: { path, name }
+   }
+   */
+  const allNames = Object.keys(runtimeData)
+  verbose && log('unused-import-list', allNames)
+  allNames.forEach(name => {
+    const {children, data, parent} = runtimeData[name]
+    const childNames = children.map(x => x.name)
+    // every imported identifier is unused
+    if (childNames.every(cName => allNames.includes(cName))) {
+      parent.remove()
+    }
+    else {
+      data.path.remove();
+    }
+  })
+
 }
 
 module.exports = function (babel) {
@@ -18,83 +95,15 @@ module.exports = function (babel) {
       this.runtimeData = {}
     },
     visitor: {
-      ImportDeclaration(path, data) {
-        data.opts.ignores = []
-        const locals = getSpecImport(path, { withPath: true, ignore: data.opts.ignore });
-        if (locals) {
-          locals.forEach((pathData, index, all) => {
-            const {name} = pathData
-            // already existed
-            if (this.runtimeData[name]) {
-              warn('the declare of ', `\`${name}\``, 'is already existed')
-              return
-            }
-
-            this.runtimeData[name] = {
-              parent: path,
-              children: all,
-              data: pathData
-            }
-          })
-
-          path.skip()
-        }
-      },
-
-      Identifier(path, data) {
-        const { parentPath } = path
-        const { name } = path.node
-        // const ID = 'value';
-        if (parentPath.isVariableDeclarator() && parentPath.get('id') === path) {
-
-        }
-        // { Tabs: 'value' }
-        else if (parentPath.isLabeledStatement() && parentPath.get('label') === path) {
-        }
-        // ref.ID
-        else if (parentPath.isMemberExpression() && parentPath.get('property') === path) {
-
-        }
-        // class A { ID() {} }
-        else if (
-          (parentPath.isClassProperty() || parentPath.isClassMethod())
-          && parentPath.get('key') === path
-        ) {
-
-        }
-        else {
-          // used
-          if (this.runtimeData[name]) {
-            delete this.runtimeData[name]
-          }
-        }
+      Program(path, data) {
+        path.traverse(importTraverseObject, {
+          opts: data.opts,
+          runtimeData: this.runtimeData
+        });
+        handleRemovePath(this.runtimeData, data.opts)
       }
-
     },
-    post(path) {
-      /*
-       {
-         parent: path,
-         children: [ { path, name } ],
-         data: { path, name }
-       }
-       */
-      const allNames = Object.keys(this.runtimeData)
-      // warn(allNames)
-      allNames.forEach(name => {
-        const {children, data, parent} = this.runtimeData[name]
-        const childNames = children.map(x => x.name)
-        // every imported identifier is unused
-        if (childNames.every(cName => allNames.includes(cName))) {
-          !parent.__removed && parent.remove()
-          parent.__removed = true
-        }
-        else {
-          !data.path.__removed && data.path.remove();
-          data.path.__removed = true
-        }
-      })
-
+    post() {
       delete this.runtimeData
     }
   };
