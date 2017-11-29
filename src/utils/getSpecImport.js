@@ -7,7 +7,7 @@
  *    `import a from 'a'`
  *    `import { b, c } from 'a'`
  */
-
+const match = require('../utils/matchRule')
 const t = require('babel-core').types;
 
 /**
@@ -44,12 +44,15 @@ function getSpecifierIdentifiers(specifiers = [], withPath = false) {
  * output: undefined
  */
 function getSpecImport(path, opts = {}) {
-  const { withPath = false } = opts
+  const { withPath = false, ignore = false } = opts
   const source = path.get('source')
   const specifiers = path.get('specifiers')
 
   if (t.isImportDeclaration(path)) {
-    if (t.isStringLiteral(source)) {
+    if (
+      t.isStringLiteral(source)
+      && (!ignore || !match(ignore, source.node.value))
+    ) {
       if (specifiers && specifiers.length > 0) {
         return getSpecifierIdentifiers(specifiers, withPath);
       }

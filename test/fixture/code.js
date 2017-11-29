@@ -8,6 +8,8 @@ import Badge from 'common/components/Badge';
 import Icon from 'common/components/Icon';
 import HighlightTitle from 'common/components/HighlightTitle';
 
+import './need!'
+
 
 // Not Identifier
 a['Tabs'] = 2;

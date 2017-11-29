@@ -5,6 +5,7 @@
  * @description:
  */
 const getSpecImport = require('./utils/getSpecImport');
+const matchRule = require('./utils/matchRule');
 const {name: symbol} = require('../package.json')
 
 function warn(...args) {
@@ -18,7 +19,8 @@ module.exports = function (babel) {
     },
     visitor: {
       ImportDeclaration(path, data) {
-        const locals = getSpecImport(path, { withPath: true });
+        data.opts.ignores = []
+        const locals = getSpecImport(path, { withPath: true, ignore: data.opts.ignore });
         if (locals) {
           locals.forEach((pathData, index, all) => {
             const {name} = pathData
@@ -78,15 +80,18 @@ module.exports = function (babel) {
        }
        */
       const allNames = Object.keys(this.runtimeData)
+      warn(allNames)
       allNames.forEach(name => {
         const {children, data, parent} = this.runtimeData[name]
         const childNames = children.map(x => x.name)
         // every imported identifier is unused
         if (childNames.every(cName => allNames.includes(cName))) {
-          parent.remove()
+          parent.__removed = true
+          !parent.__removed && parent.remove()
         }
         else {
-          data.path.remove();
+          data.path.__removed = true
+          !data.path.__removed && data.path.remove();
         }
       })
 
