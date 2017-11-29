@@ -34,8 +34,9 @@ function renderApp(routes, appState) {
   const MainApp = AppCreator(routes)
   counter++
   render(
-    h(AppContainer, {},
-    ),
+    <AppContainer2 AppContainer={counter}>
+      <MainApp context={appState}/>
+    </AppContainer2>,
     document.getElementById('root')
   )
 }
