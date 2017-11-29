@@ -10,6 +10,9 @@
     "dev": "babel src --out-dir lib -Dw",
     "prepublish": "npm run clean; npm run babel"
   },
+  "files": [
+    "lib"
+  ],
   "keywords": [],
   "author": "",
   "license": "MIT",
