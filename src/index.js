@@ -80,10 +80,13 @@ function handleRemovePath(runtimeData, opts = {}) {
     const childNames = children.map(x => x.name)
     // every imported identifier is unused
     if (childNames.every(cName => allNames.includes(cName))) {
-      parent.remove()
+      !parent.__removed && parent.remove();
+      parent.__removed = true
     }
     else {
-      data.path.remove();
+      const path = data.path
+      !path.__removed && path.remove();
+      path.__removed = true
     }
   })
 
