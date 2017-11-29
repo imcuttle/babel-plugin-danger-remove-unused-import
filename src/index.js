@@ -15,6 +15,12 @@ function log(...args) {
 }
 
 const idTraverseObject = {
+  JSXIdentifier(path, {runtimeData}) {
+    const { name } = path.node
+    if (runtimeData[name]) {
+      delete runtimeData[name]
+    }
+  },
   Identifier(path, {runtimeData}) {
     const { parentPath } = path
     const { name } = path.node
