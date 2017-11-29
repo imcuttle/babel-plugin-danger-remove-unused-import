@@ -86,12 +86,12 @@ module.exports = function (babel) {
         const childNames = children.map(x => x.name)
         // every imported identifier is unused
         if (childNames.every(cName => allNames.includes(cName))) {
-          parent.__removed = true
           !parent.__removed && parent.remove()
+          parent.__removed = true
         }
         else {
-          data.path.__removed = true
           !data.path.__removed && data.path.remove();
+          data.path.__removed = true
         }
       })
 
