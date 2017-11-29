@@ -80,7 +80,7 @@ module.exports = function (babel) {
        }
        */
       const allNames = Object.keys(this.runtimeData)
-      warn(allNames)
+      // warn(allNames)
       allNames.forEach(name => {
         const {children, data, parent} = this.runtimeData[name]
         const childNames = children.map(x => x.name)

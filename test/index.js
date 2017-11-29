@@ -17,7 +17,7 @@ var options = {
   ],
   plugins: [
     [require.resolve('babel-plugin-transform-class-properties'), { spec: true }],
-    [require.resolve('../lib/'), { ignore: 'mobx-react' }],
+    [require.resolve('../lib/'), { ignore: ['mobx-react'] }],
     require.resolve('babel-plugin-transform-react-jsx'),
     require.resolve('babel-plugin-transform-decorators-legacy'),
   ]
