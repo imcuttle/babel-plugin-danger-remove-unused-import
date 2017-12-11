@@ -121,3 +121,7 @@ module.exports = function (babel) {
     }
   };
 };
+
+// expose internals for use in other plugins
+module.exports.importTraverseObject = importTraverseObject;
+module.exports.handleRemovePath = handleRemovePath;
