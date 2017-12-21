@@ -14,10 +14,9 @@ import i18n from '@befe/utils/i18n/easy-i18n'
 import urlUtils from 'utils/url-utils'
 import {setLocale as setErpCompsLocale, injectLocaleMap as injectErpCompsLocaleMap} from '@befe/erp-comps/v2'
 import {errorRoutes} from 'frontend/Error/routes'
-
+import Comp from 'comp'
 export {isDevMode} from 'utils/consts'
 
-// todo: 临时处理，prod环境下使用非严格模式
 if (isDevMode) {
   useStrict(true)
 }

@@ -42,3 +42,11 @@ import {data} from '../some-where'
 const a = {}
 a.moment = <Button x={data} />
 ```
+
+## ChangeLog
+
+- 1.0.9  
+  Fix `<Comp.A/>` Bug
+
+## Todo
+1. Supporting Scope

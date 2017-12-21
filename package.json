@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf lib/*",
     "babel": "babel src --out-dir lib -D",
-    "dev": "babel src --out-dir lib -Dw",
+    "dev": "npm run babel -- -w",
     "prepublish": "npm run clean; npm run babel"
   },
   "files": [

@@ -19,7 +19,10 @@ const idTraverseObject = {
     const { parentPath } = path
     const { name } = path.node
 
-    if (parentPath.isJSXOpeningElement() && parentPath.get('name') === path) {
+    if (
+      parentPath.isJSXOpeningElement() && parentPath.get('name') === path
+      || parentPath.isJSXMemberExpression() && parentPath.get('object') === path
+    ) {
       if (runtimeData[name]) {
         delete runtimeData[name]
       }
