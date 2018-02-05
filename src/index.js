@@ -36,7 +36,11 @@ const idTraverseObject = {
     // { Tabs: 'value' }
     else if (parentPath.isLabeledStatement() && parentPath.get('label') === path) {}
     // ref.ID
-    else if (parentPath.isMemberExpression() && parentPath.get('property') === path) {}
+    else if (
+      parentPath.isMemberExpression()
+      && parentPath.get('property') === path
+      && parentPath.get('computed') === false
+    ) {}
     // class A { ID() {} }
     else if (
       (parentPath.isClassProperty() || parentPath.isClassMethod())

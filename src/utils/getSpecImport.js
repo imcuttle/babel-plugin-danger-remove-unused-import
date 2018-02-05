@@ -27,6 +27,7 @@ function getSpecifierIdentifiers(specifiers = [], withPath = false) {
     switch (node.type) {
       case 'ImportDefaultSpecifier':
       case 'ImportSpecifier':
+      case 'ImportNamespaceSpecifier':
         collection.push(item);
         break;
     }
