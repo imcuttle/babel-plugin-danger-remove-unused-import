@@ -39,7 +39,7 @@ const idTraverseObject = {
     else if (
       parentPath.isMemberExpression()
       && parentPath.get('property') === path
-      && parentPath.get('computed') === false
+      && parentPath.node.computed === false
     ) {}
     // class A { ID() {} }
     else if (
