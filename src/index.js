@@ -59,6 +59,8 @@ const importTraverseObject = {
   ImportDeclaration(path, data) {
     const { opts = {}, runtimeData } = data
 
+    path.skip()
+
     const locals = getSpecImport(path, { withPath: true, ignore: opts.ignore });
     if (locals) {
       locals.forEach((pathData, index, all) => {
@@ -75,7 +77,6 @@ const importTraverseObject = {
         }
       })
 
-      path.skip()
     }
   },
   ...idTraverseObject
@@ -116,6 +117,8 @@ module.exports = function (babel) {
     },
     visitor: {
       Program(path, data) {
+        path.skip()
+
         path.traverse(importTraverseObject, {
           opts: data.opts,
           runtimeData: this.runtimeData
