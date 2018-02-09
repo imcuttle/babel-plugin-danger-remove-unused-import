@@ -117,8 +117,7 @@ module.exports = function (babel) {
     },
     visitor: {
       Program(path, data) {
-        path.skip()
-
+        // path.skip()
         path.traverse(importTraverseObject, {
           opts: data.opts,
           runtimeData: this.runtimeData
