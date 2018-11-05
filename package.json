@@ -4,22 +4,32 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "clean": "rm -rf lib/*",
     "babel": "babel src --out-dir lib -D",
     "dev": "npm run babel -- -w",
-    "prepublish": "npm run clean; npm run babel"
+    "precommit": "pretty-quick --staged",
+    "prepublish": "npm run clean; npm run babel",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
+    "version": "npm run changelog"
   },
   "files": [
-    "lib"
+    "lib",
+    "index.js"
   ],
   "keywords": [
+    "imcuttle",
+    "shake",
     "remove-unused",
     "babel-plugin"
   ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@moyuyc/husky": "^1.1.1",
+    "@types/jest": "^23.3.9",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -27,7 +37,11 @@
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1"
+    "babel-preset-stage-0": "^6.24.1",
+    "conventional-changelog-cli": "^2.0.11",
+    "jest": "^23.6.0",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.8.0"
   },
   "directories": {
     "lib": "lib",
@@ -41,5 +55,16 @@
   "bugs": {
     "url": "https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/issues"
   },
-  "homepage": "https://github.com/imcuttle/babel-plugin-danger-remove-unused-import#readme"
+  "homepage": "https://github.com/imcuttle/babel-plugin-danger-remove-unused-import#readme",
+  "husky": {
+    "installType": "append",
+    "hooks": {
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
 }
