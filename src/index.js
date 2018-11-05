@@ -33,6 +33,8 @@ const idTraverseObject = {
     const { name } = path.node
     // const ID = 'value';
     if (parentPath.isVariableDeclarator() && parentPath.get('id') === path) {}
+    // const x = { Tabs: 'value' }
+    else if (parentPath.isObjectProperty() && parentPath.get('key') === path) {}
     // { Tabs: 'value' }
     else if (parentPath.isLabeledStatement() && parentPath.get('label') === path) {}
     // ref.ID
