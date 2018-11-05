@@ -8,7 +8,6 @@
     "clean": "rm -rf lib/*",
     "babel": "babel src --out-dir lib -D",
     "dev": "npm run babel -- -w",
-    "precommit": "pretty-quick --staged",
     "prepublish": "npm run clean; npm run babel",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "version": "npm run changelog"
@@ -56,15 +55,15 @@
     "url": "https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/issues"
   },
   "homepage": "https://github.com/imcuttle/babel-plugin-danger-remove-unused-import#readme",
-  "husky": {
-    "installType": "append",
-    "hooks": {
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
-    }
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
   }
 }
