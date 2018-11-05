@@ -52,4 +52,4 @@ a.moment = <Button x={data} />
 
 ## Todo
 
-[ ] - Supporting Scope
+- [ ] Supporting Scope
