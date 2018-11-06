@@ -182,6 +182,17 @@ const css = \`
 \`;"
 `)
     })
+
+    it('string-template-2', function() {
+      expect(transformTest('used/string-template-2.js').code)
+        .toMatchInlineSnapshot(`
+"import * as sty from 'style';
+
+const css = \`
+ \${sty.color} {}
+\`;"
+`)
+    })
   })
 
   describe('options', () => {
