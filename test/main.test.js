@@ -99,7 +99,7 @@ const comp = React.createElement(Tab, null);"
 `)
     })
 
-    it('ObjectProperty', function() {
+    it('ObjectProperty-computed', function() {
       expect(
         transformTest(
           'used/ObjectProperty-computed.js',
@@ -115,7 +115,7 @@ export const x = _extends({ [Tab]: 'abc' }, { a: '2' });"
 `)
     })
 
-    it('class', function() {
+    it('class-computed-method', function() {
       expect(
         transformTest(
           'used/class-computed-method.js',
@@ -131,7 +131,7 @@ export class A {
 `)
     })
 
-    it('class-2', function() {
+    it('class-static-computed', function() {
       expect(
         transformTest(
           'used/class-static-computed.js',
@@ -144,6 +144,29 @@ export class A {
 export class A {
   static [Tab]() {}
 }"
+`)
+    })
+
+    it('MemberExpression', function() {
+      expect(transformTest('used/MemberExpression.js').code)
+        .toMatchInlineSnapshot(`
+"import * as t from './a';
+
+const obj = {
+  [t.abc]: () => ({}),
+  [t.abcd]: () => ({})
+};"
+`)
+    })
+
+    it('string-template', function() {
+      expect(transformTest('used/string-template.js').code)
+        .toMatchInlineSnapshot(`
+"import * as sty from 'style';
+
+const css = \`
+ \${sty} {}
+\`;"
 `)
     })
   })
