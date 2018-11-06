@@ -102,17 +102,23 @@ const comp = React.createElement(Tab, null);"
     it('ObjectProperty', function() {
       expect(
         transformTest(
-          'used/ObjectProperty.js',
+          'used/ObjectProperty-computed.js',
           {},
           { presets: ['babel-preset-stage-0'] }
         ).code
-      ).toMatchSnapshot()
+      ).toMatchInlineSnapshot(`
+"var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+import Tab from 'tab';
+
+export const x = _extends({ [Tab]: 'abc' }, { a: '2' });"
+`)
     })
 
     it('class', function() {
       expect(
         transformTest(
-          'used/class.js',
+          'used/class-computed-method.js',
           {},
           { presets: ['babel-preset-stage-0'] }
         ).code
@@ -126,8 +132,13 @@ export class A {
     })
 
     it('class-2', function() {
-      expect(transformTest('used/class-2.js', {}, { presets: ['react'] }).code)
-        .toMatchInlineSnapshot(`
+      expect(
+        transformTest(
+          'used/class-static-computed.js',
+          {},
+          { presets: ['react'] }
+        ).code
+      ).toMatchInlineSnapshot(`
 "import Tab from 'tab';
 
 export class A {

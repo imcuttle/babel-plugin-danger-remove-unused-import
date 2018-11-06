@@ -29,13 +29,18 @@ const idTraverseObject = {
     }
   },
   Identifier(path, { runtimeData }) {
-    const { parentPath } = path
+    const { parentPath, scope } = path
     const { name } = path.node
     // const ID = 'value';
     if (parentPath.isVariableDeclarator() && parentPath.get('id') === path) {
     }
     // const x = { Tabs: 'value' }
-    else if (parentPath.isObjectProperty() && parentPath.get('key') === path) {
+    else if (
+      parentPath.isObjectProperty() &&
+      parentPath.get('key') === path &&
+      // const x = { [Tabs]: 'value' }
+      !parentPath.node.computed
+    ) {
     }
     // { Tabs: 'value' }
     else if (
@@ -53,7 +58,9 @@ const idTraverseObject = {
     // class A { ID() {} }
     else if (
       (parentPath.isClassProperty() || parentPath.isClassMethod()) &&
-      parentPath.get('key') === path
+      parentPath.get('key') === path &&
+      // class A { [ID]() {} }
+      !parentPath.node.computed
     ) {
     } else {
       // used
