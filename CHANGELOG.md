@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/compare/v1.1.0...v1.1.1) (2018-11-06)
+
+### Bug Fixes
+
+- computed value in ObjectProperty / class methods ([3ab6e2d](https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/commit/3ab6e2d))
+
 # [1.1.0](https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/compare/v1.0.13...v1.1.0) (2018-11-05)
 
 ### Features
