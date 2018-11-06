@@ -98,6 +98,43 @@ class A {
 const comp = React.createElement(Tab, null);"
 `)
     })
+
+    it('ObjectProperty', function() {
+      expect(
+        transformTest(
+          'used/ObjectProperty.js',
+          {},
+          { presets: ['babel-preset-stage-0'] }
+        ).code
+      ).toMatchSnapshot()
+    })
+
+    it('class', function() {
+      expect(
+        transformTest(
+          'used/class.js',
+          {},
+          { presets: ['babel-preset-stage-0'] }
+        ).code
+      ).toMatchInlineSnapshot(`
+"import Tab from 'tab';
+
+export class A {
+  [Tab]() {}
+}"
+`)
+    })
+
+    it('class-2', function() {
+      expect(transformTest('used/class-2.js', {}, { presets: ['react'] }).code)
+        .toMatchInlineSnapshot(`
+"import Tab from 'tab';
+
+export class A {
+  static [Tab]() {}
+}"
+`)
+    })
   })
 
   describe('options', () => {
