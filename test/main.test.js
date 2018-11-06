@@ -87,6 +87,19 @@ class A {
 }"
 `)
     })
+
+    it('multi-import', function() {
+      expect(transformTest('unused/multi-import.js').code)
+        .toMatchInlineSnapshot(`
+"import { a, b } from 'lodash';
+import _ from 'lodash';
+
+_.a;
+_.b;
+
+const sum = a + b;"
+`)
+    })
   })
 
   describe('used', () => {
