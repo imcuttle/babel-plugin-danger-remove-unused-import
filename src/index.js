@@ -82,7 +82,7 @@ const importTraverseObject = {
       locals.forEach((pathData, index, all) => {
         const { name } = pathData
         // already existed
-        if (runtimeData[name]) {
+        if (runtimeData.hasOwnProperty(name)) {
           warn('the declare of ', `\`${name}\``, 'is already existed')
           return
         }
