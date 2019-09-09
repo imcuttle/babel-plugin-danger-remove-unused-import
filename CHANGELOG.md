@@ -1,3 +1,12 @@
+# [2.0.0](https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/compare/v1.1.2...v2.0.0) (2019-09-09)
+
+
+### Features
+
+* **core:** use `scope` for more smarter removing ([d6befc6](https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/commit/d6befc6)), closes [#4](https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/issues/4)
+
+
+
 ## [1.1.2](https://github.com/imcuttle/babel-plugin-danger-remove-unused-import/compare/v1.1.1...v1.1.2) (2019-03-13)
 
 
