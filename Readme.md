@@ -9,7 +9,7 @@
 
 For shrinking the bundled javascript size :smile:
 
-**Note: remove unused import is dangerous**  
+**Note: remove unused import is dangerous**
 **because the imported package may have some side effects!**
 
 ## Option
@@ -52,4 +52,4 @@ a.moment = <Button x={data} />
 
 ## Todo
 
-- [ ] Supporting Scope
+- [x] Supporting Scope
