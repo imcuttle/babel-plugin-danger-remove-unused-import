@@ -25,6 +25,19 @@ function transformTest(name, opts, { plugins = [], ...rest } = {}) {
 }
 
 describe('main', function() {
+  describe('scope', () => {
+    it('case 1', function() {
+      expect(transformTest('scope/func.js').code).toMatchInlineSnapshot(`
+"
+
+function gn() {
+  const abc = '123';
+  return abc + '456';
+}"
+`)
+    })
+  })
+
   describe('unused', () => {
     it('JSX', () => {
       expect(
