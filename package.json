@@ -22,6 +22,9 @@
     "remove-unused",
     "babel-plugin"
   ],
+  "engines": {
+    "node": ">=7"
+  },
   "author": "",
   "license": "MIT",
   "devDependencies": {
